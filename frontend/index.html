@@ -3,95 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Wealth | Modern Asset Management</title>
-    <meta name="description" content="Nexus Wealth provides state-of-the-art wealth management solutions for the modern investor. Achieve your financial goals with dynamic asset allocation.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Nexus Wealth | Advisor Dashboard</title>
+    <meta name="description" content="Nexus Wealth Advisor Dashboard — AI-powered agentic execution engine for autonomous wealth management advisory.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div id="app">
-        <!-- Navigation -->
-        <nav class="navbar" id="main-nav">
-            <div class="nav-container">
+        <!-- Top Nav Bar -->
+        <nav class="topbar" id="topbar">
+            <div class="topbar-left">
                 <div class="logo">
-                    <span class="logo-icon">✧</span>
-                    <span class="logo-text">Nexus Wealth</span>
+                    <span class="logo-icon">◆</span>
+                    <span class="logo-text">Nexus <span class="logo-accent">Wealth</span></span>
                 </div>
-                <div class="nav-links">
-                    <a href="#services" class="nav-link">Services</a>
-                    <a href="#about" class="nav-link">About</a>
-                    <a href="#contact" class="nav-link">Contact</a>
+                <span class="topbar-divider"></span>
+                <span class="topbar-label">Advisor Dashboard</span>
+            </div>
+            <div class="topbar-right">
+                <div class="status-indicator" id="api-status">
+                    <span class="status-dot online"></span>
+                    <span>Engine Online</span>
                 </div>
-                <button class="cta-button" id="nav-cta">Get Started</button>
+                <div class="topbar-user">
+                    <span class="avatar">JA</span>
+                    <span>James Adler</span>
+                </div>
             </div>
         </nav>
 
-        <!-- Hero Section -->
-        <header class="hero-section" id="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Master Your <span class="gradient-text">Financial Future</span></h1>
-                <p class="hero-subtitle">Experience next-generation wealth management tailored for the digital era. Advanced analytics, transparent reporting, and dynamic strategies.</p>
-                <div class="hero-actions">
-                    <button class="primary-btn" id="hero-cta-1">Start Investing</button>
-                    <button class="secondary-btn" id="hero-cta-2">Learn More</button>
+        <div class="dashboard-layout">
+            <!-- Left Sidebar: Client Roster -->
+            <aside class="sidebar" id="client-sidebar">
+                <div class="sidebar-header">
+                    <h2>Client Roster</h2>
+                    <span class="badge" id="client-count">0</span>
                 </div>
-            </div>
-            <div class="hero-visual" id="hero-visual">
-                <!-- Abstract visual elements for a premium feel -->
-                <div class="glass-card visual-card-1">
-                    <div class="card-header">Portfolio Value</div>
-                    <div class="card-amount">$1,245,892</div>
-                    <div class="card-growth">+14.2% This Year</div>
+                <div class="search-box">
+                    <input type="text" id="client-search" placeholder="Search clients..." autocomplete="off">
                 </div>
-                <div class="glass-card visual-card-2">
-                    <div class="card-header">Asset Allocation</div>
-                    <div class="chart-mockup">
-                        <div class="bar bar-1"></div>
-                        <div class="bar bar-2"></div>
-                        <div class="bar bar-3"></div>
-                    </div>
+                <div class="client-list" id="client-list">
+                    <!-- Populated by JS -->
                 </div>
-                <div class="glow-orb"></div>
-            </div>
-        </header>
+            </aside>
 
-        <!-- Features Section -->
-        <section class="features-section" id="services">
-            <div class="section-heading">
-                <h2>Why Choose Nexus</h2>
-                <p>Built for the modern investor who demands excellence.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card" id="feature-1">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Real-Time Insights</h3>
-                    <p>Monitor your assets with zero latency and high-definition precision.</p>
+            <!-- Main Content Area -->
+            <main class="main-content" id="main-content">
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state">
+                    <div class="empty-icon">◆</div>
+                    <h2>Select a Client</h2>
+                    <p>Choose a client from the roster to view their portfolio analysis and run the agentic advisory pipeline.</p>
                 </div>
-                <div class="feature-card" id="feature-2">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Bank-Grade Security</h3>
-                    <p>Your assets are protected by enterprise-level encryption protocols.</p>
+
+                <!-- Client Detail View (hidden initially) -->
+                <div class="client-view" id="client-view" style="display:none;">
+                    <!-- Client 360 Header -->
+                    <section class="client-header" id="client-header">
+                        <div class="client-profile-card">
+                            <div class="client-avatar-lg" id="client-avatar">--</div>
+                            <div class="client-info">
+                                <h1 id="client-name">—</h1>
+                                <p class="client-occupation" id="client-occupation">—</p>
+                                <div class="client-tags">
+                                    <span class="tag tag-segment" id="client-segment">Mass Affluent</span>
+                                    <span class="tag tag-risk" id="client-risk-tag">—</span>
+                                    <span class="tag tag-age" id="client-age-tag">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="client-stats">
+                            <div class="stat-card">
+                                <div class="stat-label">Total AUM</div>
+                                <div class="stat-value" id="stat-aum">$0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Unrealized P&L</div>
+                                <div class="stat-value" id="stat-pnl">$0</div>
+                            </div>
+                            <div class="stat-card stat-highlight">
+                                <div class="stat-label">Outside Assets</div>
+                                <div class="stat-value" id="stat-outside">$0</div>
+                                <div class="stat-sub" id="stat-outside-sub">0 accounts detected</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Annual Income</div>
+                                <div class="stat-value" id="stat-income">$0</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Portfolio Allocation -->
+                    <section class="section-card" id="portfolio-section">
+                        <div class="section-title">
+                            <h2>Portfolio Allocation</h2>
+                        </div>
+                        <div class="allocation-grid">
+                            <div class="donut-chart-container">
+                                <div class="donut-chart" id="donut-chart"></div>
+                            </div>
+                            <div class="allocation-legend" id="allocation-legend"></div>
+                        </div>
+                    </section>
+
+                    <!-- Agentic Pipeline Visualizer -->
+                    <section class="section-card pipeline-section" id="pipeline-section">
+                        <div class="section-title">
+                            <h2>Agentic Pipeline</h2>
+                            <button class="run-pipeline-btn" id="run-pipeline-btn">
+                                <span class="btn-icon">▶</span> Run Pipeline
+                            </button>
+                        </div>
+                        <div class="pipeline-flow" id="pipeline-flow">
+                            <div class="pipeline-node" data-step="1">
+                                <div class="node-indicator"><span class="node-num">1</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Client Profile Ingestion</div>
+                                    <div class="node-source">Client 360</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node" data-step="2">
+                                <div class="node-indicator"><span class="node-num">2</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Outside Asset Detection <span class="new-badge">★ NEW</span></div>
+                                    <div class="node-source">AI-Powered</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node" data-step="3">
+                                <div class="node-indicator"><span class="node-num">3</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">AI Risk Assessment</div>
+                                    <div class="node-source">AI-Powered</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-parallel">
+                                <div class="parallel-label">Parallel Execution</div>
+                                <div class="parallel-nodes">
+                                    <div class="pipeline-node node-sm" data-step="4">
+                                        <div class="node-indicator"><span class="node-num">4a</span></div>
+                                        <div class="node-info"><div class="node-name">Tax Agent</div></div>
+                                        <div class="node-status">Pending</div>
+                                    </div>
+                                    <div class="pipeline-node node-sm" data-step="5">
+                                        <div class="node-indicator"><span class="node-num">4b</span></div>
+                                        <div class="node-info"><div class="node-name">Portfolio Agent</div></div>
+                                        <div class="node-status">Pending</div>
+                                    </div>
+                                    <div class="pipeline-node node-sm" data-step="6">
+                                        <div class="node-indicator"><span class="node-num">4c</span></div>
+                                        <div class="node-info"><div class="node-name">Alt Assets Agent</div></div>
+                                        <div class="node-status">Pending</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node" data-step="7">
+                                <div class="node-indicator"><span class="node-num">5</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Compliance Guardrails</div>
+                                    <div class="node-source">SEC/FINRA</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node node-hitl" data-step="8">
+                                <div class="node-indicator"><span class="node-num">6</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Advisor Review <span class="hitl-badge">HITL</span></div>
+                                    <div class="node-source">Human-in-the-Loop</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node" data-step="9">
+                                <div class="node-indicator"><span class="node-num">7</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Client Delivery</div>
+                                    <div class="node-source">Digital / Citi Sky</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                            <div class="pipeline-connector"></div>
+                            <div class="pipeline-node" data-step="10">
+                                <div class="node-indicator"><span class="node-num">8</span></div>
+                                <div class="node-info">
+                                    <div class="node-name">Continuous Monitoring</div>
+                                    <div class="node-source">Rebalancing Loop</div>
+                                </div>
+                                <div class="node-status">Pending</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Recommendations Panel (shown after pipeline run) -->
+                    <section class="section-card" id="recommendations-section" style="display:none;">
+                        <div class="section-title">
+                            <h2>AI Recommendations</h2>
+                            <span class="rec-count" id="rec-count">0 recommendations</span>
+                        </div>
+                        <div class="recommendations-grid" id="recommendations-grid"></div>
+                    </section>
+
+                    <!-- Compliance & Approval Panel -->
+                    <section class="section-card" id="compliance-section" style="display:none;">
+                        <div class="section-title">
+                            <h2>Compliance & Approval</h2>
+                        </div>
+                        <div class="compliance-grid">
+                            <div class="compliance-checks" id="compliance-checks"></div>
+                            <div class="approval-panel" id="approval-panel">
+                                <h3>Advisor Decision</h3>
+                                <p class="approval-desc">Review the recommendations and compliance results above, then approve or request modifications.</p>
+                                <textarea id="advisor-notes" placeholder="Add notes (optional)..." rows="3"></textarea>
+                                <div class="approval-actions">
+                                    <button class="approve-btn" id="approve-btn">✓ Approve & Deliver</button>
+                                    <button class="reject-btn" id="reject-btn">✕ Request Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Audit Trail -->
+                    <section class="section-card" id="audit-section" style="display:none;">
+                        <div class="section-title">
+                            <h2>Audit Trail</h2>
+                            <span class="mono-text" id="run-id-display">—</span>
+                        </div>
+                        <div class="audit-trail" id="audit-trail"></div>
+                    </section>
                 </div>
-                <div class="feature-card" id="feature-3">
-                    <div class="feature-icon">🧠</div>
-                    <h3>AI-Driven Strategies</h3>
-                    <p>Leverage cutting-edge machine learning for optimal asset allocation.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="logo">
-                    <span class="logo-icon">✧</span>
-                    <span class="logo-text">Nexus Wealth</span>
-                </div>
-                <p class="copyright">&copy; 2026 Nexus Wealth Management. All rights reserved.</p>
-            </div>
-        </footer>
+            </main>
+        </div>
     </div>
-    
-    <script src="app.js"></script>
+
+    <script src="dashboard.js"></script>
 </body>
 </html>
