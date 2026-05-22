@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Wealth | Advisor Dashboard</title>
     <meta name="description" content="Nexus Wealth Advisor Dashboard — AI-powered agentic execution engine for autonomous wealth management advisory.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Self-hosted fonts — works on all networks including restricted corporate environments -->
+    <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -17,10 +18,11 @@
                     <span class="logo-icon">◆</span>
                     <span class="logo-text">Nexus <span class="logo-accent">Wealth</span></span>
                 </div>
-                <span class="topbar-divider"></span>
-                <span class="topbar-label">Advisor Dashboard</span>
+                <span class="topbar-label">Nexus Engine <span style="color:var(--accent-blue-light); margin-left:6px; font-weight:600;">Powering Citi Sky</span></span>
             </div>
             <div class="topbar-right">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">☀️</button>
+                <button class="help-btn" id="help-btn" title="Open Help Center">?</button>
                 <div class="status-indicator" id="api-status">
                     <span class="status-dot online"></span>
                     <span>Engine Online</span>
@@ -73,21 +75,21 @@
                             </div>
                         </div>
                         <div class="client-stats">
-                            <div class="stat-card">
-                                <div class="stat-label">Total AUM</div>
+                                    <div class="stat-card">
+                                <div class="stat-label"><span class="financial-term" data-term-def="Assets under management (AUM) is the total market value of the client’s investments that the firm is managing on their behalf.">Total AUM</span></div>
                                 <div class="stat-value" id="stat-aum">$0</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">Unrealized P&L</div>
+                                <div class="stat-label"><span class="financial-term" data-term-def="Unrealized profit or loss is the paper gain or loss on investments that have not been sold yet.">Unrealized P&L</span></div>
                                 <div class="stat-value" id="stat-pnl">$0</div>
                             </div>
                             <div class="stat-card stat-highlight">
-                                <div class="stat-label">Outside Assets</div>
+                                <div class="stat-label"><span class="financial-term" data-term-def="Outside assets are investments or accounts the client has at other institutions that are not yet part of this advisory relationship.">Outside Assets</span> <span style="background:var(--status-warning); color:#000; padding:2px 6px; border-radius:4px; font-size:0.6rem; margin-left:4px; font-weight:bold;">$5T CAPTURE</span></div>
                                 <div class="stat-value" id="stat-outside">$0</div>
                                 <div class="stat-sub" id="stat-outside-sub">0 accounts detected</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">Annual Income</div>
+                                <div class="stat-label"><span class="financial-term" data-term-def="Annual income is the client’s total expected earnings in a year from salary, bonuses, and other regular income sources.">Annual Income</span></div>
                                 <div class="stat-value" id="stat-income">$0</div>
                             </div>
                         </div>
@@ -110,12 +112,13 @@
                     <section class="section-card pipeline-section" id="pipeline-section">
                         <div class="section-title">
                             <h2>Agentic Pipeline</h2>
+                            <div class="section-copy">Step through the AI workflow in plain language: from client intake to compliance, advisor review, and delivery.</div>
                             <button class="run-pipeline-btn" id="run-pipeline-btn">
                                 <span class="btn-icon">▶</span> Run Pipeline
                             </button>
                         </div>
                         <div class="pipeline-flow" id="pipeline-flow">
-                            <div class="pipeline-node" data-step="1">
+                            <div class="pipeline-node" data-step="1" data-tooltip="Ingests data from Client 360, identifying life events, goals, and risk profiles.">
                                 <div class="node-indicator"><span class="node-num">1</span></div>
                                 <div class="node-info">
                                     <div class="node-name">Client Profile Ingestion</div>
@@ -124,7 +127,7 @@
                                 <div class="node-status">Pending</div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node" data-step="2">
+                            <div class="pipeline-node" data-step="2" data-tooltip="Scans for external accounts at competing institutions and suggests migration paths.">
                                 <div class="node-indicator"><span class="node-num">2</span></div>
                                 <div class="node-info">
                                     <div class="node-name">Outside Asset Detection <span class="new-badge">★ NEW</span></div>
@@ -133,7 +136,7 @@
                                 <div class="node-status">Pending</div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node" data-step="3">
+                            <div class="pipeline-node" data-step="3" data-tooltip="Calculates a composite risk score based on profile, age, concentration risk, and market volatility.">
                                 <div class="node-indicator"><span class="node-num">3</span></div>
                                 <div class="node-info">
                                     <div class="node-name">AI Risk Assessment</div>
@@ -145,25 +148,30 @@
                             <div class="pipeline-parallel">
                                 <div class="parallel-label">Parallel Execution</div>
                                 <div class="parallel-nodes">
-                                    <div class="pipeline-node node-sm" data-step="4">
+                                    <div class="pipeline-node node-sm" data-step="4" data-tooltip="Identifies tax-loss harvesting candidates and evaluates Roth conversion strategies.">
                                         <div class="node-indicator"><span class="node-num">4a</span></div>
                                         <div class="node-info"><div class="node-name">Tax Agent</div></div>
                                         <div class="node-status">Pending</div>
                                     </div>
-                                    <div class="pipeline-node node-sm" data-step="5">
+                                    <div class="pipeline-node node-sm" data-step="5" data-tooltip="Analyzes allocation drift and generates tax-aware rebalancing trades.">
                                         <div class="node-indicator"><span class="node-num">4b</span></div>
                                         <div class="node-info"><div class="node-name">Portfolio Agent</div></div>
                                         <div class="node-status">Pending</div>
                                     </div>
-                                    <div class="pipeline-node node-sm" data-step="6">
+                                    <div class="pipeline-node node-sm" data-step="6" data-tooltip="Evaluates diversification opportunities into private equity, real estate, or commodities.">
                                         <div class="node-indicator"><span class="node-num">4c</span></div>
                                         <div class="node-info"><div class="node-name">Alt Assets Agent</div></div>
+                                        <div class="node-status">Pending</div>
+                                    </div>
+                                    <div class="pipeline-node node-sm" data-step="7" data-tooltip="Analyzes profiles for trust setups, 529 plans, and charitable giving (DAFs).">
+                                        <div class="node-indicator"><span class="node-num">4d</span></div>
+                                        <div class="node-info"><div class="node-name">Estate & Legacy Agent</div></div>
                                         <div class="node-status">Pending</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node" data-step="7">
+                            <div class="pipeline-node" data-step="8" data-tooltip="Enforces SEC/FINRA suitability checks, verifying concentration limits and risk alignment.">
                                 <div class="node-indicator"><span class="node-num">5</span></div>
                                 <div class="node-info">
                                     <div class="node-name">Compliance Guardrails</div>
@@ -172,7 +180,7 @@
                                 <div class="node-status">Pending</div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node node-hitl" data-step="8">
+                            <div class="pipeline-node node-hitl" data-step="9" data-tooltip="Human-in-the-loop checkpoint requiring advisor approval before client delivery.">
                                 <div class="node-indicator"><span class="node-num">6</span></div>
                                 <div class="node-info">
                                     <div class="node-name">Advisor Review <span class="hitl-badge">HITL</span></div>
@@ -181,16 +189,16 @@
                                 <div class="node-status">Pending</div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node" data-step="9">
+                            <div class="pipeline-node" data-step="10" data-tooltip="Formats the approved recommendation package and pushes it to the Citi Sky conversational avatar for client presentation.">
                                 <div class="node-indicator"><span class="node-num">7</span></div>
                                 <div class="node-info">
-                                    <div class="node-name">Client Delivery</div>
-                                    <div class="node-source">Digital / Citi Sky</div>
+                                    <div class="node-name">Sync to Citi Sky</div>
+                                    <div class="node-source">Avatar Handoff</div>
                                 </div>
                                 <div class="node-status">Pending</div>
                             </div>
                             <div class="pipeline-connector"></div>
-                            <div class="pipeline-node" data-step="10">
+                            <div class="pipeline-node" data-step="11" data-tooltip="Sets up ongoing rebalancing triggers and alerts based on market conditions.">
                                 <div class="node-indicator"><span class="node-num">8</span></div>
                                 <div class="node-info">
                                     <div class="node-name">Continuous Monitoring</div>
@@ -218,8 +226,8 @@
                         <div class="compliance-grid">
                             <div class="compliance-checks" id="compliance-checks"></div>
                             <div class="approval-panel" id="approval-panel">
-                                <h3>Advisor Decision</h3>
-                                <p class="approval-desc">Review the recommendations and compliance results above, then approve or request modifications.</p>
+                                <h3>Advisor Decision <span class="hitl-badge" style="font-size:0.7rem; float:right;">Human-in-the-Loop Required</span></h3>
+                                <p class="approval-desc">Review the AI recommendations and compliance results above, then approve before syncing to Citi Sky.</p>
                                 <textarea id="advisor-notes" placeholder="Add notes (optional)..." rows="3"></textarea>
                                 <div class="approval-actions">
                                     <button class="approve-btn" id="approve-btn">✓ Approve & Deliver</button>
@@ -242,6 +250,56 @@
         </div>
     </div>
 
+    <div class="help-modal" id="help-modal" aria-hidden="true">
+        <div class="help-modal-overlay" id="help-modal-overlay"></div>
+        <div class="help-modal-content">
+            <div class="help-modal-header">
+                <div>
+                    <h2>Help Center</h2>
+                    <p>Clear explanations for key terms and the agentic workflow, written for users who are not finance experts.</p>
+                </div>
+                <button class="help-modal-close" id="help-modal-close" aria-label="Close Help">✕</button>
+            </div>
+            <div class="help-modal-body">
+                <section class="help-modal-section">
+                    <h3>What is this dashboard?</h3>
+                    <p>This is a digital advisor toolkit that helps you review a client’s financial picture, identify opportunities, and deliver a recommendation package quickly. The system uses AI agents to automate research, compliance checks, and client-ready messaging.</p>
+                </section>
+                <section class="help-modal-section">
+                    <h3>How the workflow works</h3>
+                    <ul>
+                        <li><strong>Client Profile Ingestion</strong>: gathers the client’s basic details, goals, and risk profile.</li>
+                        <li><strong>Outside Asset Detection</strong>: finds accounts the client has outside your firm so recommendations are complete.</li>
+                        <li><strong>AI Risk Assessment</strong>: checks whether the client’s portfolio matches their stated risk tolerance.</li>
+                        <li><strong>Tax, Portfolio, Alternative Assets, and Estate agents</strong>: run in parallel to recommend tax savings, portfolio balance, new asset opportunities, and legacy planning.</li>
+                        <li><strong>Compliance Guardrails</strong>: validates the recommendations for suitability and regulatory alignment.</li>
+                        <li><strong>Advisor Review</strong>: the final human review step before delivery.</li>
+                        <li><strong>Client Delivery</strong>: prepares the final package for client presentation.</li>
+                        <li><strong>Continuous Monitoring</strong>: keeps an eye on the client’s portfolio after delivery.</li>
+                    </ul>
+                </section>
+                <section class="help-modal-section">
+                    <h3>Glossary</h3>
+                    <dl>
+                        <dt>AUM</dt>
+                        <dd>Assets under management. The total dollar value of the client’s investments that you currently oversee.</dd>
+                        <dt>Unrealized P&L</dt>
+                        <dd>The paper gain or loss on investments that have not been sold yet.</dd>
+                        <dt>Outside Assets</dt>
+                        <dd>Investments or accounts the client has at another institution that are not currently managed here.</dd>
+                        <dt>Risk Tolerance</dt>
+                        <dd>How much investment ups and downs the client is comfortable accepting.</dd>
+                        <dt>Compliance Guardrails</dt>
+                        <dd>Automated checks that make sure recommendations are appropriate and follow rules.</dd>
+                    </dl>
+                </section>
+                <section class="help-modal-section">
+                    <h3>Why this matters</h3>
+                    <p>Most clients do not speak finance jargon. These explanations keep your conversations simple, help you explain the recommendation rationale, and protect the client experience from confusion.</p>
+                </section>
+            </div>
+        </div>
+    </div>
     <script src="dashboard.js"></script>
 </body>
 </html>

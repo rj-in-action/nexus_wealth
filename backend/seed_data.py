@@ -212,7 +212,7 @@ def seed():
 
     conn.commit()
     conn.close()
-    print("✅ Database seeded with 5 clients, portfolios, and outside assets.")
+    print("Database seeded with 5 clients, portfolios, and outside assets.")
 
 
 if __name__ == "__main__":

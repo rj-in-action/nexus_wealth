@@ -199,7 +199,8 @@ def _execute_pipeline(run_id: str, client_id: str):
         all_recs = (
             final_state.get("tax_recommendations", []) +
             final_state.get("portfolio_recommendations", []) +
-            final_state.get("alt_asset_recommendations", [])
+            final_state.get("alt_asset_recommendations", []) +
+            final_state.get("estate_recommendations", [])
         )
         for rec in all_recs:
             save_recommendation(
@@ -268,6 +269,7 @@ def get_pipeline_result(run_id: str):
         "tax_recommendations": state.get("tax_recommendations", []),
         "portfolio_recommendations": state.get("portfolio_recommendations", []),
         "alt_asset_recommendations": state.get("alt_asset_recommendations", []),
+        "estate_recommendations": state.get("estate_recommendations", []),
         "compliance_results": state.get("compliance_results", {}),
         "advisor_review": state.get("advisor_review", {}),
         "delivery_package": state.get("delivery_package", {}),

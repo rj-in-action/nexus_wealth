@@ -19,6 +19,7 @@ from agents.risk_assessment import risk_assessment_agent
 from agents.tax_agent import tax_agent
 from agents.portfolio_agent import portfolio_agent
 from agents.alt_assets_agent import alt_assets_agent
+from agents.estate_agent import estate_agent
 from agents.compliance import compliance_guardrails_check
 from agents.advisor_review import advisor_review_agent
 from agents.client_delivery import client_delivery_agent
@@ -46,6 +47,7 @@ class PipelineState(TypedDict):
     tax_recommendations: List[Dict[str, Any]]
     portfolio_recommendations: List[Dict[str, Any]]
     alt_asset_recommendations: List[Dict[str, Any]]
+    estate_recommendations: List[Dict[str, Any]]
     compliance_approved: bool
     compliance_results: Dict[str, Any]
     advisor_review: Dict[str, Any]
@@ -86,10 +88,11 @@ step_3_risk = _wrap(risk_assessment_agent, 3, delay=0.4)
 step_4a_tax = _wrap(tax_agent, 4, delay=0.5)
 step_4b_portfolio = _wrap(portfolio_agent, 5, delay=0.4)
 step_4c_alts = _wrap(alt_assets_agent, 6, delay=0.3)
-step_5_compliance = _wrap(compliance_guardrails_check, 7, delay=0.4)
-step_6_review = _wrap(advisor_review_agent, 8, delay=0.2)
-step_7_delivery = _wrap(client_delivery_agent, 9, delay=0.3)
-step_8_monitoring = _wrap(monitoring_agent, 10, delay=0.2)
+step_4d_estate = _wrap(estate_agent, 7, delay=0.4)
+step_5_compliance = _wrap(compliance_guardrails_check, 8, delay=0.4)
+step_6_review = _wrap(advisor_review_agent, 9, delay=0.2)
+step_7_delivery = _wrap(client_delivery_agent, 10, delay=0.3)
+step_8_monitoring = _wrap(monitoring_agent, 11, delay=0.2)
 
 
 def run_pipeline_sync(client_data, portfolio_data, outside_assets_data, client_id="unknown",
@@ -114,6 +117,7 @@ def run_pipeline_sync(client_data, portfolio_data, outside_assets_data, client_i
         "tax_recommendations": [],
         "portfolio_recommendations": [],
         "alt_asset_recommendations": [],
+        "estate_recommendations": [],
         "compliance_approved": False,
         "compliance_results": {},
         "advisor_review": {},
@@ -128,10 +132,11 @@ def run_pipeline_sync(client_data, portfolio_data, outside_assets_data, client_i
         (4, "Tax Optimization", step_4a_tax),
         (5, "Portfolio Rebalancing", step_4b_portfolio),
         (6, "Alternative Assets", step_4c_alts),
-        (7, "Compliance Guardrails", step_5_compliance),
-        (8, "Advisor Review", step_6_review),
-        (9, "Client Delivery", step_7_delivery),
-        (10, "Continuous Monitoring", step_8_monitoring),
+        (7, "Estate & Legacy Planning", step_4d_estate),
+        (8, "Compliance Guardrails", step_5_compliance),
+        (9, "Advisor Review", step_6_review),
+        (10, "Client Delivery", step_7_delivery),
+        (11, "Continuous Monitoring", step_8_monitoring),
     ]
 
     for step_num, step_name, agent_fn in steps:
