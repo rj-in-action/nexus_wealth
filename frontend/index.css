@@ -62,11 +62,12 @@ body {
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin-bottom: 0.5rem; }
 .mono-text { font-family: var(--font-mono); font-size: 0.85em; }
 
-/* Scrollbar */
+/* Scrollbar — Chrome/Edge (webkit) + Firefox/Edge (standard) */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #444; }
+* { scrollbar-width: thin; scrollbar-color: #333 transparent; }
 
 /* Top Nav */
 .topbar {
@@ -207,7 +208,7 @@ button { font-family: var(--font-sans); font-weight: 600; cursor: pointer; borde
 
 .help-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; }
 .help-modal.open { display: flex; }
-.help-modal-overlay { position: absolute; inset: 0; background: rgba(12, 14, 22, 0.75); backdrop-filter: blur(6px); }
+.help-modal-overlay { position: absolute; inset: 0; background: rgba(12, 14, 22, 0.75); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .help-modal-content { position: relative; width: min(960px, calc(100% - 40px)); max-height: min(90vh, 760px); overflow-y: auto; background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; box-shadow: 0 28px 80px rgba(0,0,0,0.28); padding: 24px; z-index: 1; }
 .help-modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
 .help-modal-header h2 { margin: 0; font-size: 1.5rem; }
@@ -220,8 +221,12 @@ button { font-family: var(--font-sans); font-weight: 600; cursor: pointer; borde
 .help-modal-section dt { font-weight: 700; margin-top: 12px; }
 .help-modal-section dd { margin: 4px 0 0 0; color: var(--text-secondary); }
 
+/* Pipeline Scroll Wrapper — separates horizontal scroll from visible overflow for tooltips.
+   The wrapper handles clipping/scrolling; the inner flow stays overflow:visible. */
+.pipeline-scroll-wrapper { overflow-x: auto; overflow-y: visible; padding-bottom: 16px; position: relative; }
+
 /* Pipeline Flow */
-.pipeline-flow { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 80px; overflow-x: auto; overflow-y: visible; position: relative; min-width: 0; }
+.pipeline-flow { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 80px; overflow: visible; position: relative; min-width: max-content; }
 .pipeline-node { flex: 1 0 100px; min-width: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; position: relative; z-index: 2; opacity: 0.75; transition: opacity 0.3s; }
 .pipeline-node.active { opacity: 1; }
 .pipeline-node.running .node-indicator { border-color: var(--accent-blue-light); box-shadow: 0 0 15px rgba(74, 144, 226, 0.4); animation: pulse-border 2s infinite; }
@@ -230,7 +235,7 @@ button { font-family: var(--font-sans); font-weight: 600; cursor: pointer; borde
 
 .node-indicator { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border-strong); background: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; transition: all 0.3s; }
 .node-info { min-height: 40px; height: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
-.node-name { font-size: 0.75rem; font-weight: 600; line-height: 1.3; margin-bottom: 3px; max-width: 110px; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+.node-name { font-size: 0.75rem; font-weight: 600; line-height: 1.3; margin-bottom: 3px; max-width: 110px; word-wrap: break-word; overflow-wrap: break-word; -webkit-hyphens: auto; hyphens: auto; }
 .node-source { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px; }
 .node-status { font-size: 0.75rem; color: var(--text-tertiary); font-family: var(--font-mono); background: var(--bg-dark); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--border-subtle); }
 
@@ -252,7 +257,7 @@ button { font-family: var(--font-sans); font-weight: 600; cursor: pointer; borde
     border-radius: 8px;
     font-size: 0.78rem;
     font-family: var(--font-sans);
-    font-weight: 450;
+    font-weight: 400;
     width: max-content;
     max-width: 220px;
     top: calc(100% + 10px);

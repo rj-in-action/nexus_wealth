@@ -8,6 +8,14 @@
     <!-- Self-hosted fonts — works on all networks including restricted corporate environments -->
     <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="index.css">
+    <!-- Set theme before first paint to prevent flash of wrong theme (Chrome vs Edge consistency) -->
+    <script>
+        (function() {
+            var theme = 'dark';
+            try { theme = localStorage.getItem('nexus-theme') || 'dark'; } catch(e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <div id="app">
@@ -117,6 +125,7 @@
                                 <span class="btn-icon">▶</span> Run Pipeline
                             </button>
                         </div>
+                        <div class="pipeline-scroll-wrapper">
                         <div class="pipeline-flow" id="pipeline-flow">
                             <div class="pipeline-node" data-step="1" data-tooltip="Ingests data from Client 360, identifying life events, goals, and risk profiles.">
                                 <div class="node-indicator"><span class="node-num">1</span></div>
@@ -206,6 +215,7 @@
                                 </div>
                                 <div class="node-status">Pending</div>
                             </div>
+                        </div>
                         </div>
                     </section>
 
